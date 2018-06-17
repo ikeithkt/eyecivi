@@ -5,12 +5,14 @@
 """
 from flask import request, jsonify
 
-from app.web import web
+from app.libs.redprint import Redprint
 from app.libs.common_func import is_isbn_or_key
 from app.spider.douban_book import DoubanBook
 
+api = Redprint('book')
 
-@web.route('/book/search')
+
+@api.route('/search')
 def search():
     q = request.args.get('q')
     page = request.args.get('page')
@@ -18,5 +20,5 @@ def search():
     if isbn_or_key == 'isbn':
         result = DoubanBook.search_by_isbn(q)
     else:
-        result = DoubanBook.search_by_keyword(q, page)
+        result = DoubanBook.search_by_keyword(q)
     return jsonify(result)
