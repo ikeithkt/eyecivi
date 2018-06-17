@@ -15,7 +15,6 @@ class Redprint:
             url_prefix = '/' + self.name
         for f, rule, options in self.mound:
             endpoint = options.pop('endpoint', f.__name__)
-            print('endpoint' + endpoint)
             bp.add_url_rule(url_prefix + rule, endpoint, f, **options)
 
     def route(self, rule, **options):
