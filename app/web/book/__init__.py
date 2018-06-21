@@ -1,6 +1,6 @@
 """
-@author: TuTeng
-@file: __init__.py.py
+@author: Twu
+@file: __init__.py
 @desc:
 """
 from flask import Blueprint

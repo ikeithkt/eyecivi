@@ -1,7 +1,7 @@
 """
-@author: TuTeng
+@author: Twu
 @file: book.py
-@desc:
+@desc: 书籍视图
 """
 import json
 
@@ -10,7 +10,7 @@ from flask import request
 from app.libs.redprint import Redprint
 from app.libs.common_func import is_isbn_or_key
 from app.spider.douban_book import DoubanBook
-from view_models.book import BookCollection
+from app.view_models.book import BookCollection
 
 api = Redprint('book')
 
