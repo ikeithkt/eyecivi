@@ -4,6 +4,9 @@
 @desc: 创建 app
 """
 from flask import Flask
+from flask_login import LoginManager
+
+login_manager = LoginManager()
 
 
 def create_app():
@@ -35,3 +38,5 @@ def register_plugin(app):
     db.init_app(app=app)
     with app.app_context():
         db.create_all()
+
+

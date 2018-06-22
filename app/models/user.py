@@ -8,6 +8,7 @@ from sqlalchemy import Column, String, Integer, Boolean, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.models.base import Base, db
+from app import login_manager
 
 
 class User(Base, UserMixin):
@@ -49,3 +50,9 @@ class User(Base, UserMixin):
             pass
         # TODO: 添加 scope （权限）
         return {'uid': user.id}
+
+
+@login_manager.reload_user
+def get_user(uid):
+    """获取当前用户，在 auth.login_required 限制中的用户"""
+    return User.query.get(int(uid))

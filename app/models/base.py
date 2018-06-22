@@ -34,6 +34,13 @@ class Query(BaseQuery):
             pass
         return rv
 
+    def get_or_404(self, ident):
+        rv = self.get(ident)
+        if not rv:
+            # TODO: raise Exception
+            pass
+        return rv
+
 
 db = SQLAlchemy()
 
@@ -50,3 +57,6 @@ class Base(db.Model):
         for key, value in attr_dict.item():
             if hasattr(self, key) and key != 'id':
                 setattr(self, key, value)
+
+    def delete(self):
+        self.is_valid = 0
