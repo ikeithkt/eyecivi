@@ -4,10 +4,10 @@
 @desc: 用户相关模型
 """
 from flask_login import UserMixin
-from sqlalchemy import Column, String, Integer, Boolean
+from sqlalchemy import Column, String, Integer, Boolean, SmallInteger
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.models.base import Base
+from app.models.base import Base, db
 
 
 class User(Base, UserMixin):
@@ -17,6 +17,7 @@ class User(Base, UserMixin):
     nickname = Column(String(25), unique=True, nullable=False)
     _password = Column('password', String(128), nullable=False)
     confirmed = Column(Boolean, default=False)
+    auth = Column(SmallInteger, default=1)
 
     @property
     def password(self):
@@ -30,3 +31,21 @@ class User(Base, UserMixin):
         if not self.password:
             return False
         return check_password_hash(self.password, raw)
+
+    @staticmethod
+    def register_by_email(nickname, email, password):
+        with db.auto_commit():
+            user = User()
+            user.nickname = nickname
+            user.email = email
+            user.password = password
+            db.session.add(user)
+
+    @staticmethod
+    def verify_by_email(email, password):
+        user = User.query.filter_by(email=email).first_or_404()
+        if not user.check_password(password):
+            # TODO: raise Exception
+            pass
+        # TODO: 添加 scope （权限）
+        return {'uid': user.id}

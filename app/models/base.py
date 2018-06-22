@@ -27,6 +27,13 @@ class Query(BaseQuery):
             kwargs['is_valid'] = 1
         return super().filter_by(**kwargs)
 
+    def first_or_404(self):
+        rv = self.first()
+        if not rv:
+            # TODO: raise Exception
+            pass
+        return rv
+
 
 db = SQLAlchemy()
 
