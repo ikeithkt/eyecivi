@@ -7,10 +7,14 @@ from flask import Blueprint, render_template
 
 
 def create_blueprint_index():
-    bp_index = Blueprint('web', __name__)
+    bp = Blueprint('web', __name__)
 
-    @bp_index.route('/')
+    @bp.route('/')
     def index():
         return render_template('index.html')
 
-    return bp_index
+    @bp.route('/index')
+    def index_film():
+        return render_template('index_film.html')
+
+    return bp

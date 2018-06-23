@@ -1,0 +1,51 @@
+{% extends "film/film.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/media-detail.css')}}">
+{% endblock %}
+{% block content %}
+    <div class="row book-container">
+        <div class="col-md-2">
+            <img class="book-img" src="{{ film.image }}"/>
+        </div>
+        <div style="margin-left: 30px;" class="col-md-7 flex-vertical">
+            <div>
+                <h4>{{ film.title }}</h4>
+            </div>
+            <div class="description-font-margin">
+                <div>
+                    <span>导演：</span>
+                    <span>{{ film.directors }}</span>
+                </div>
+                <div>
+                    <span>主演：</span>
+                    <span>{{ film.casts }}</span>
+                </div>
+                <div>
+                    <span>类型：</span>
+                    <span>{{ film.genres }}</span>
+                </div>
+                <div>
+                    <span>国家：</span>
+                    <span>{{ film.countries }}</span>
+                </div>
+                <div>
+                    <span>上映年份：</span>
+                    <span>{{ film.year }}</span>
+                </div>
+                <div>
+                    <span>原名：</span>
+                    <span>{{ film.original_title }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 30px;" class="row">
+        <div class="col-md-2"><span class="description-title">剧情简介</span></div>
+    </div>
+    <div style="margin-top:15px;" class="row">
+        <div class="col-md-11">
+            <p class="description-font">{{ film.summary }}</p>
+        </div>
+    </div>
+{% endblock %}

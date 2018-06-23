@@ -8,8 +8,8 @@ from app.web.user import auth
 
 
 def create_blueprint_user():
-    bp_user = Blueprint('user', __name__)
+    bp = Blueprint('user', __name__)
 
-    auth.api.register(bp_user)
+    auth.api.register(bp)
 
-    return bp_user
+    return bp

@@ -1,7 +1,7 @@
 {% extends "book/book.html" %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/book-detail.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/media-detail.css')}}">
 {% endblock %}
 {% block content %}
     <div class="row book-container">
@@ -52,9 +52,4 @@
             <p class="description-font">{{ book.summary }}</p>
         </div>
     </div>
-{% endblock %}
-{% block scripts %}
-    {{ super() }}
-    <script src="{{ url_for('static', filename='3rd/remodal.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/book-detail.js') }}"></script>
 {% endblock %}

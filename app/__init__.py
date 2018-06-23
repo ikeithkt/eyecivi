@@ -25,12 +25,14 @@ def register_blueprint(app):
     from app.web import create_blueprint_index
     from app.web.book import create_blueprint_book
     from app.web.user import create_blueprint_user
+    from app.web.film import create_blueprint_film
 
     app.register_blueprint(create_blueprint_v1(), url_prefix='/v1')
 
     app.register_blueprint(create_blueprint_index())
     app.register_blueprint(create_blueprint_book())
     app.register_blueprint(create_blueprint_user())
+    app.register_blueprint(create_blueprint_film())
 
 
 def register_plugin(app):

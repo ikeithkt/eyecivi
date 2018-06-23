@@ -37,4 +37,4 @@ class BookCollection:
     def fill(self, books, key):
         self.keyword = key
         self.total = books.total
-        self.books = [BookSingle(book) for book in books.books]
+        self.books = [BookSingle(book) for book in books.media]

@@ -9,8 +9,8 @@ from app.web.book import book
 
 
 def create_blueprint_book():
-    bp_web = Blueprint('book', __name__)
+    bp = Blueprint('book', __name__)
 
-    book.api.register(bp_web)
+    book.api.register(bp)
 
-    return bp_web
+    return bp

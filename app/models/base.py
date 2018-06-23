@@ -42,7 +42,7 @@ class Query(BaseQuery):
         return rv
 
 
-db = SQLAlchemy()
+db = SQLAlchemy(query_class=Query)
 
 
 class Base(db.Model):

@@ -1,0 +1,41 @@
+{% extends 'film/film.html' %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/search-result.css') }}">
+
+    <script src="{{ url_for('static', filename='js/search_result.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div style="margin-top:20px;" class="row flex-vertical-center">
+        <div class="col-md-6">
+            <span class="sub-title">搜索电影 <span class="space highlight"
+                                             id="keyword">{{ films.keyword }}</span>的结果</span>
+        </div>
+        <div class="col-md-3 col-md-offset-3">
+            <span class="sub-title"> 共 <span class="space"
+                                             id="total">{{ films.total }}</span> 条记录</span>
+        </div>
+    </div>
+
+    {% for film in films.films %}
+        <div class="row col-padding">
+            <a href="{{ url_for('film.film_detail', fid=film.id) }}" class="">
+                <div class="col-md-2">
+                    <img class="book-img-small shadow" src="{{ film.image }}" alt="">
+                </div>
+                <div class="col-md-7 flex-vertical description-font">
+                    <span class="title">{{ film.title }}</span>
+                    <span>{{ film.intro }}</span>
+                    <span>{{ film.intro_people }}</span>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="flex-hor-center">
+            <ul class="pagination" id="pagination"></ul>
+        </div>
+    </div>
+{% endblock %}

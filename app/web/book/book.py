@@ -5,10 +5,12 @@
 """
 from flask import request, flash, render_template
 
-from app.forms.book import SearchForm
+from app.forms.base import SearchForm
 from app.libs.redprint import Redprint
 from app.libs.common_func import is_isbn_or_key
-from app.spider.douban_book import DoubanBook
+from app.models.base import db
+from app.models.history import BookHistory
+from app.spider.douban import DoubanBook
 from app.view_models.book import BookCollection, BookSingle
 
 api = Redprint('book')
@@ -46,5 +48,14 @@ def book_detail(isbn):
     doubanbook = DoubanBook()
     doubanbook.search_by_isbn(isbn)
     book = BookSingle(doubanbook.first)
+
+    history = BookHistory.query.filter_by(isbn=isbn).first()
+    with db.auto_commit():
+        if history:
+            history.increase()
+        else:
+            new_history = BookHistory()
+            new_history.isbn = book.isbn
+            db.session.add(new_history)
 
     return render_template('book/book_detail.html', book=book)
