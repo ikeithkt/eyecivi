@@ -38,7 +38,7 @@
 .btn-big {
   color: #ffffff;
   padding: 4px 8px 4px 8px;
-  background-color: #8BACA1;
+  background-color: #777777;
   border-radius: 5px;
   height: 47px;
   border-radius: 0;
@@ -251,7 +251,7 @@ p {
 }
 .big-title {
   display: block;
-  color: #8BACA1;
+  color: #777777;
   font-size: 50px;
   padding: 90px 0 70px 0;
 }

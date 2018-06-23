@@ -10,6 +10,7 @@ from app.models.base import Base
 
 
 class History(Base):
+    __abstract__ = True
     id = Column(Integer, primary_key=True)
     # user = relationship('User')
     # uid = Column(Integer, ForeignKey('user.id'))
@@ -21,3 +22,7 @@ class History(Base):
 
 class BookHistory(History):
     isbn = Column(String(15), nullable=False, unique=True)
+
+
+class FilmHistory(History):
+    fid = Column(String(15), nullable=False, unique=True)

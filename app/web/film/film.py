@@ -7,8 +7,10 @@ from flask import render_template, request, flash
 
 from app.libs.redprint import Redprint
 from app.forms.base import SearchForm
+from app.models.base import db
 from app.view_models.film import FilmSingle, FilmCollection, FilmViewModel
 from app.spider.douban import DoubanFilm
+from app.models.history import FilmHistory
 
 api = Redprint('film')
 
@@ -41,5 +43,14 @@ def film_detail(fid):
     douban_film = DoubanFilm()
     douban_film.search_by_digits(fid)
     film = FilmViewModel(douban_film.first)
+
+    history = FilmHistory.query.filter_by(fid=fid).first()
+    with db.auto_commit():
+        if history:
+            history.increase()
+        else:
+            new_history = FilmHistory()
+            new_history.fid = fid
+            db.session.add(new_history)
 
     return render_template('film/film_detail.html', film=film)

@@ -32,8 +32,11 @@ def login():
     if request.method == 'POST' and form.validate():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
-            login_user(user)
-            return redirect(url_for('index.index'))
+            login_user(user, remember=True)
+            next_url = request.args.get('nest')
+            if not next_url or not next_url.statswith('/'):
+                next_url = url_for('web.index')
+            return redirect(next_url)
         else:
             flash('账号不存在或密码错误！')
     return render_template('auth/login.html', form=form)
@@ -43,4 +46,9 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index.index'))
+    return redirect(url_for('web.index'))
+
+
+@api.route('/reset/password')
+def forget_password_request():
+    pass
