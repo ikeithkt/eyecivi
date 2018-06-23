@@ -7,7 +7,7 @@ from flask import Blueprint, render_template
 
 
 def create_blueprint_index():
-    bp_index = Blueprint('index', __name__)
+    bp_index = Blueprint('web', __name__)
 
     @bp_index.route('/')
     def index():

@@ -1,0 +1,60 @@
+{% extends "book/book.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/book-detail.css')}}">
+{% endblock %}
+{% block content %}
+    <div class="row book-container">
+        <div class="col-md-2">
+            <img class="book-img" src="{{ book.image }}"/>
+        </div>
+        <div style="margin-left: 30px;" class="col-md-5 flex-vertical">
+            <div>
+                <h4>{{ book.title }}</h4>
+            </div>
+            <div class="description-font-margin">
+                <div>
+                    <span>作者:</span>
+                    <span>{{ book.author }}</span>
+                </div>
+                <div>
+                    <span>出版社:</span>
+                    <span>{{ book.publisher }}</span>
+                </div>
+                <div>
+                    <span>出版年：</span>
+                    <span>{{ book.pubdate }}</span>
+                </div>
+                <div>
+                    <span>页数：</span>
+                    <span>{{ book.pages }}</span>
+                </div>
+                <div>
+                    <span>定价：</span>
+                    <span>{{ book.price }}</span>
+                </div>
+                <div>
+                    <span>精装：</span>
+                    <span>{{ book.binding }}</span>
+                </div>
+                <div>
+                    <span>ISBN：</span>
+                    <span id="isbn">{{ book.isbn }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 30px;" class="row">
+        <div class="col-md-2"><span class="description-title">内容简介</span></div>
+    </div>
+    <div style="margin-top:15px;" class="row">
+        <div class="col-md-11">
+            <p class="description-font">{{ book.summary }}</p>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='3rd/remodal.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/book-detail.js') }}"></script>
+{% endblock %}

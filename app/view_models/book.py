@@ -3,6 +3,7 @@
 @file: book.py
 @desc: book info
 """
+import re
 
 
 class BookSingle:
@@ -10,11 +11,12 @@ class BookSingle:
         self.rating = book['rating']['average']
         self.author = '、'.join(book['author'])
         self.pubdate = book['pubdate']
-        self.image = book['image']
+        self.image = 'https://img1.doubanio.com/lpic/{}.jpg'.format(re.search(r's\d+', book['image']).group())
+        # self.image = book['image']
         self.binding = book['binding']
         self.pages = book['pages']
         self.publisher = book['publisher']
-        self.isbn = book['isbn13']
+        self.isbn = book['isbn13'] if book.get('isbn13') else book['isbn10']
         self.title = book['title']
         self.price = book['price']
         self.summary = book['summary']

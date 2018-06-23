@@ -52,7 +52,7 @@ class User(Base, UserMixin):
         return {'uid': user.id}
 
 
-@login_manager.reload_user
+@login_manager.user_loader
 def get_user(uid):
-    """获取当前用户，在 auth.login_required 限制中的用户"""
+    """获取当前用户，在 flask_login.login_required 需要"""
     return User.query.get(int(uid))

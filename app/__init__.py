@@ -35,6 +35,9 @@ def register_blueprint(app):
 
 def register_plugin(app):
     from app.models.base import db
+
+    login_manager.init_app(app)
+
     db.init_app(app=app)
     with app.app_context():
         db.create_all()
