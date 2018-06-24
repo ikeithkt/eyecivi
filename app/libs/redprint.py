@@ -7,6 +7,9 @@
 
 class Redprint:
     def __init__(self, name):
+        """
+        :param name: 红图名字
+        """
         self.name = name
         self.mound = []
 

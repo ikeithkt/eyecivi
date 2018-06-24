@@ -11,6 +11,7 @@ from app.models.base import Base, db
 from app import login_manager
 from app.libs.common_func import is_isbn_or_key
 from app.spider.douban import DoubanBook
+from app.libs.error_code import AuthFailed
 
 
 class User(Base, UserMixin):
@@ -46,12 +47,12 @@ class User(Base, UserMixin):
 
     @staticmethod
     def verify_by_email(email, password):
+        """"用于 API 调用"""
         user = User.query.filter_by(email=email).first_or_404()
         if not user.check_password(password):
-            # TODO: raise Exception
-            pass
-        # TODO: 添加 scope （权限）
-        return {'uid': user.id}
+            raise AuthFailed()
+        authority = 'AdminAuthority' if user.auth == 2 else 'UserAuthority'
+        return {'uid': user.id, 'authority': authority}
 
     @classmethod
     def can_save_to_collect(cls, digit, media_type):

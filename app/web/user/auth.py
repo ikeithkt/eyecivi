@@ -18,10 +18,7 @@ api = Redprint('auth')
 def register():
     form = RegisterForm(request.form)
     if request.method == 'POST' and form.validate():
-        with db.auto_commit():
-            user = User()
-            user.set_attr(form.data)
-            db.session.add(user)
+        User.register_by_email(form.nickname.data, form.email.data, form.password.data)
         return redirect(url_for('user.login'))
     return render_template('auth/register.html', form=form)
 
@@ -32,7 +29,8 @@ def login():
     if request.method == 'POST' and form.validate():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
-            login_user(user, remember=True)
+            # login_user(user, remember=True)
+            login_user(user)
             next_url = request.args.get('nest')
             if not next_url or not next_url.statswith('/'):
                 next_url = url_for('web.index')

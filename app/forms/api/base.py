@@ -4,6 +4,7 @@
 @desc: api Form 基类
 """
 from wtforms import Form
+from wtforms.validators import ValidationError
 from flask import request
 
 
@@ -19,6 +20,5 @@ class Base(Form):
         """自定义一个api的验证"""
         valid = super().validate()
         if not valid:
-            # TODO: raise Exception
-            pass
+            ValidationError()
         return self

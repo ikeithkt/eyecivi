@@ -3,7 +3,7 @@
 @file: client.py
 @desc:
 """
-from flask import jsonify, g
+from flask import g
 
 from app.libs.redprint import Redprint
 from app.forms.api.forms import ClientForm, UserEmailForm
@@ -11,6 +11,7 @@ from app.libs.enums import ClientTypeEnum
 from app.libs.token_require import auth
 from app.models.base import db
 from app.models.user import User
+from app.libs.error_code import ClientTypeError, ClientCreateSuccess, DeleteSuccess
 
 api = Redprint('client')
 
@@ -21,24 +22,22 @@ def create_client():
     if form.validate():
         promise = {
             ClientTypeEnum.USER_EMAIL: __register_by_email,
-            ClientTypeEnum.USER_MOBILE: __register_by_mobile()
+            ClientTypeEnum.USER_MOBILE: __register_by_mobile,
         }
         promise[form.type.data]()
     else:
-        return jsonify({'msg': 'register failed'})
-        # TODO: raise Exception
-        pass
-    return jsonify({'msg': 'register success'})
+        raise ClientTypeError()
+    return ClientCreateSuccess()
 
 
 @api.route('', methods=['DELETE'])
 @auth.login_required
-def delete():
+def delete_client():
     uid = g.user.uid
     with db.auto_commit():
         user = User.query.filter_by(id=uid).first_or_404()
         user.delete()
-    return jsonify({'msg': 'delete success'})
+    return DeleteSuccess()
 
 
 def __register_by_email():

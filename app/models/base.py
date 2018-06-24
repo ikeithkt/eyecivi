@@ -5,9 +5,11 @@
 """
 from datetime import datetime
 from contextlib import contextmanager
-
+from flask import request
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
 from sqlalchemy import Column, Integer, SmallInteger
+
+from app.libs.error_code import NotFound
 
 
 class SQLAlchemy(_SQLAlchemy):
@@ -28,17 +30,23 @@ class Query(BaseQuery):
         return super().filter_by(**kwargs)
 
     def first_or_404(self):
+        if request.blueprint != 'v1':
+            return super().first_or_404()
+
+        # 用于 API 调用
         rv = self.first()
         if not rv:
-            # TODO: raise Exception
-            pass
+            raise NotFound()
         return rv
 
     def get_or_404(self, ident):
+        if request.blueprint != 'v1':
+            return super().get_or_404(ident)
+
+        # 用于 API 调用
         rv = self.get(ident)
         if not rv:
-            # TODO: raise Exception
-            pass
+            raise NotFound()
         return rv
 
 

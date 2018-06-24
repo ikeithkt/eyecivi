@@ -19,6 +19,7 @@ api = Redprint('film')
 
 @api.route('')
 def index():
+    t = request
     histories = FilmHistory.get_film_history()
     films = [FilmViewModel(history.film) for history in histories]
     return render_template('film/film.html', films=films)

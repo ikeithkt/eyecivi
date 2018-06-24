@@ -27,11 +27,11 @@ def get_token():
 
     # token 过期时间
     expiration = current_app.config['TOKEN_EXPIRATION']
-    token = __generate_token(identity['uid'], form.type.data, identity['scope'], expiration)
+    token = __generate_token(identity['uid'], form.type.data, identity['authority'], expiration)
     return jsonify({'token': token.decode('ascii')}), 201
 
 
-def __generate_token(uid, client_type, scope=None, expiration=7200):
+def __generate_token(uid, client_type, authority=None, expiration=7200):
     """生成令牌"""
     s = TimedJSONWebSignatureSerializer(current_app.config['SECRET_KEY'], expiration)
-    return s.dumps({'uid': uid, 'type': client_type, 'scope': scope})
+    return s.dumps({'uid': uid, 'type': client_type, 'authority': authority})
