@@ -5,7 +5,7 @@
     <div class="flex-vertical-center">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <form class="form-inline" method="get" action="{{ url_for('film.search') }}">
                         <label class="control-label">EYE FILM</label>
                         <div class="input-group col-md-offset-1">
@@ -17,8 +17,38 @@
                         </div>
                     </form>
                 </div>
+                <div class="col-md-2">
+                    <a href="{{ url_for('film.my_collect') }} "
+                       class="flex-vertical-hor-center description-font">
+                        <span>我的收藏</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
     <hr>
+{% endblock %}
+
+{% block content %}
+    <h1>热门电影</h1>
+
+    {% for film in films %}
+        <div class="row col-padding">
+            <a href="{{ url_for('film.film_detail', fid=film.fid) }}" class="">
+                <div class="col-md-2">
+                    <img class="book-img-small shadow" src="{{ film.image }}" alt="">
+                </div>
+                <div class="col-md-7 flex-vertical description-font">
+                    <span class="title">{{ film.title }}</span>
+                    <span>{{ film.intro }}</span>
+                    <span>{{ film.intro_people }}</span>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="flex-hor-center">
+            <ul class="pagination" id="pagination"></ul>
+        </div>
+    </div>
 {% endblock %}

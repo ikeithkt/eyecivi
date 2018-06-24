@@ -1,0 +1,31 @@
+{% extends 'book/book.html' %}
+
+{% block content %}
+    <h1>我的收藏</h1>
+
+    {% for film in films %}
+        <div class="row col-padding">
+            <a href="{{ url_for('film.film_detail', fid=film.fid) }}" class="">
+                <div class="col-md-2">
+                    <img class="book-img-small shadow" src="{{ film.image }}" alt="">
+                </div>
+                <div class="col-md-7 flex-vertical description-font">
+                    <span class="title">{{ film.title }}</span>
+                    <span>{{ film.intro }}</span>
+                    <span>{{ film.intro_people }}</span>
+                </div>
+            </a>
+            <div style="margin-left:30px;">
+                <a class="bg-info list-group"
+                   href="{{ url_for('film.cancel_from_collect', fid=film.fid) }}">
+                    取消收藏
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="flex-hor-center">
+            <ul class="pagination" id="pagination"></ul>
+        </div>
+    </div>
+{% endblock %}

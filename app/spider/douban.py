@@ -10,8 +10,6 @@ from app.libs.httper import HTTP
 
 class Douban:
     __abstract__ = True
-    digits_url = ''
-    keyword_url = ''
 
     def __init__(self):
         self.total = 0

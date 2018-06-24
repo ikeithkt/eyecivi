@@ -9,6 +9,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.models.base import Base, db
 from app import login_manager
+from app.libs.common_func import is_isbn_or_key
+from app.spider.douban import DoubanBook
 
 
 class User(Base, UserMixin):
@@ -50,6 +52,19 @@ class User(Base, UserMixin):
             pass
         # TODO: 添加 scope （权限）
         return {'uid': user.id}
+
+    @classmethod
+    def can_save_to_collect(cls, digit, media_type):
+        if media_type == 'book':
+            if is_isbn_or_key(digit) != 'isbn':
+                return False
+            douban_book = DoubanBook()
+            douban_book.search_by_isbn(digit)
+            if not douban_book.first:
+                return False
+        elif media_type == 'film':
+            pass
+        return True
 
 
 @login_manager.user_loader

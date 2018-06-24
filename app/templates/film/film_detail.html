@@ -40,6 +40,20 @@
             </div>
         </div>
     </div>
+        <div style="margin-top:30px;" class="row">
+        {% if not is_collect %}
+            <div style="margin-left:30px;" class="col-md-1">
+                <a class="btn btn-outline"
+                   href="{{ url_for('film.save_to_collect', fid=film.fid) }}">
+                    收藏
+                </a>
+            </div>
+        {% else %}
+            <div class="col-md-3">
+                <span class="bg-info">已收藏</span>
+            </div>
+        {% endif %}
+    </div>
     <div style="margin-top: 30px;" class="row">
         <div class="col-md-2"><span class="description-title">剧情简介</span></div>
     </div>

@@ -21,7 +21,7 @@
 
     {% for film in films.films %}
         <div class="row col-padding">
-            <a href="{{ url_for('film.film_detail', fid=film.id) }}" class="">
+            <a href="{{ url_for('film.film_detail', fid=film.fid) }}" class="">
                 <div class="col-md-2">
                     <img class="book-img-small shadow" src="{{ film.image }}" alt="">
                 </div>

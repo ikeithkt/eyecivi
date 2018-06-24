@@ -4,6 +4,7 @@
 @desc: 书籍视图
 """
 from flask import request, flash, render_template
+from flask_login import current_user
 
 from app.forms.base import SearchForm
 from app.libs.redprint import Redprint
@@ -12,13 +13,16 @@ from app.models.base import db
 from app.models.history import BookHistory
 from app.spider.douban import DoubanBook
 from app.view_models.book import BookCollection, BookSingle
+from app.models.collection import CollectionBook
 
 api = Redprint('book')
 
 
 @api.route('')
 def index():
-    return render_template('book/book.html')
+    histories = BookHistory.get_book_history()
+    books = [BookSingle(history.book) for history in histories]
+    return render_template('book/book.html', books=books)
 
 
 @api.route('/search')
@@ -45,6 +49,8 @@ def search():
 
 @api.route('/detail/<isbn>')
 def book_detail(isbn):
+    is_collect = False
+
     doubanbook = DoubanBook()
     doubanbook.search_by_isbn(isbn)
     book = BookSingle(doubanbook.first)
@@ -58,4 +64,8 @@ def book_detail(isbn):
             new_history.isbn = book.isbn
             db.session.add(new_history)
 
-    return render_template('book/book_detail.html', book=book)
+    if current_user.is_authenticated:
+        if CollectionBook.query.filter_by(uid=current_user.id, isbn=isbn).first():
+            is_collect = True
+
+    return render_template('book/book_detail.html', book=book, is_collect=is_collect)

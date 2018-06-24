@@ -4,11 +4,13 @@
 @desc:
 """
 from flask import render_template, request, flash
+from flask_login import current_user
 
 from app.libs.redprint import Redprint
 from app.forms.base import SearchForm
 from app.models.base import db
-from app.view_models.film import FilmSingle, FilmCollection, FilmViewModel
+from app.models.collection import CollectionFilm
+from app.view_models.film import FilmCollection, FilmViewModel
 from app.spider.douban import DoubanFilm
 from app.models.history import FilmHistory
 
@@ -17,7 +19,9 @@ api = Redprint('film')
 
 @api.route('')
 def index():
-    return render_template('film/film.html')
+    histories = FilmHistory.get_film_history()
+    films = [FilmViewModel(history.film) for history in histories]
+    return render_template('film/film.html', films=films)
 
 
 @api.route('/search')
@@ -40,6 +44,8 @@ def search():
 
 @api.route('/detail/<fid>')
 def film_detail(fid):
+    is_collect = False
+
     douban_film = DoubanFilm()
     douban_film.search_by_digits(fid)
     film = FilmViewModel(douban_film.first)
@@ -53,4 +59,8 @@ def film_detail(fid):
             new_history.fid = fid
             db.session.add(new_history)
 
-    return render_template('film/film_detail.html', film=film)
+    if current_user.is_authenticated:
+        if CollectionFilm.query.filter_by(uid=current_user.id, fid=fid).first():
+            is_collect = True
+
+    return render_template('film/film_detail.html', film=film, is_collect=is_collect)

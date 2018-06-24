@@ -16,7 +16,7 @@ class FilmSingle:
         self.directors = '/'.join(director['name'] for director in film['directors'])
         self.year = film['year']
         self.image = self.__get_image(film['images']['small'])
-        self.id = film['id']
+        self.fid = film['id']
 
     @staticmethod
     def __get_image(image_url):
